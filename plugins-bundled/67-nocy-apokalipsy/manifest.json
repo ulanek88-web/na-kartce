@@ -1,0 +1,11 @@
+{
+  "slug": "67-nocy-apokalipsy",
+  "name": "67 nocy apokalipsy",
+  "icon": "🧟",
+  "hue": 10,
+  "version": "1.0.0",
+  "category": "Przetrwanie",
+  "description": "Zbieraj drewno i złom, rozbudowuj bazę i przetrwaj 67 nocy w zrujnowanym mieście.",
+  "rules": "Poruszaj się: WASD / strzałki albo przeciągnij palcem po planszy. Wchodź na drewno 🪵 i złom ⚙️, żeby je zbierać. Przy rdzeniu bazy ulepszaj go (E) i naprawiaj (R). W nocy atakuj zombie (spacja / przycisk Atak) i broń rdzenia – jeśli zostanie zniszczony, przegrywasz. Wygrywasz, gdy przetrwasz ostatnią noc.",
+  "config": { "dayLengthSec": 130, "nightLengthSec": 85, "maxNight": 67, "resourceRespawnSec": 45, "difficulty": 1 }
+}

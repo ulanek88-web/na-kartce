@@ -1,0 +1,7 @@
+{
+  "appId": "pl.nakartce.app",
+  "appName": "Na kartce",
+  "webDir": "www",
+  "server": { "androidScheme": "https" },
+  "android": { "allowMixedContent": false }
+}

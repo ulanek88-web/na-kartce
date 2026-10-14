@@ -1,0 +1,29 @@
+services:
+  nakartce:
+    build: .
+    restart: unless-stopped
+    init: true                              # poprawne przekazywanie sygnałów i sprzątanie procesów
+    stop_grace_period: 15s                  # czas na łagodne zamknięcie (WebSockety, zapis WAL)
+    # Za reverse proxy (zalecane, HTTPS/WSS): wystaw port tylko lokalnie i ustaw TRUST_PROXY=1
+    ports: ["127.0.0.1:3000:3000"]
+    environment:
+      ADMIN_PASSWORD: ${ADMIN_PASSWORD:-}   # hasło pierwszego administratora (login: admin), min. 10 znaków; puste = wygenerowane i wypisane w logu
+      ALLOWED_ORIGINS: ${ALLOWED_ORIGINS:-}
+      SECRET: ${SECRET:-}                   # opcjonalnie: stały klucz do tokenów
+      TRUST_PROXY: ${TRUST_PROXY:-1}        # liczba zaufanych reverse proxy przed aplikacją (0 = brak proxy; wtedy X-Forwarded-For jest ignorowany)
+    volumes:
+      - nakartce-data:/data
+    read_only: true
+    tmpfs: ["/tmp"]
+    cap_drop: [ALL]
+    security_opt: ["no-new-privileges:true"]
+    mem_limit: 1g
+    pids_limit: 256
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://127.0.0.1:3000/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 20s
+volumes:
+  nakartce-data:

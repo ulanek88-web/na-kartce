@@ -1,0 +1,34 @@
+{
+  "name": "nakartce",
+  "version": "1.0.0",
+  "description": "Na kartce — platforma gier online: serwer, strona/PWA, panel administratora, aplikacja Android (Capacitor)",
+  "private": true,
+  "main": "server/index.js",
+  "engines": {
+    "node": ">=22.13"
+  },
+  "scripts": {
+    "start": "node server/index.js",
+    "dev": "node --watch server/index.js",
+    "test": "node test/run.js",
+    "icons": "python3 tools/make_icons.py",
+    "cap:add": "npx cap add android",
+    "cap:sync": "node tools/prepare_www.js && npx cap sync android",
+    "cap:open": "npx cap open android",
+    "test:serial": "node test/engines.test.js && node test/bbcode.test.js && node test/censor.test.js && node test/pwa.test.js && node test/games.test.js && node test/ai.test.js && node test/backup_migration.test.js && node test/integration.test.js && node test/bots_forum.test.js && node test/security.test.js && node test/ws_games.test.js",
+    "test:responsive": "python3 test/responsive.py",
+    "check": "node tools/check.js",
+    "loadtest": "node tools/loadtest.js"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@capacitor/android": "^6.2.0",
+    "@capacitor/app": "^6.0.2",
+    "@capacitor/cli": "^6.2.0",
+    "@capacitor/core": "^6.2.0",
+    "@capacitor/assets": "^3.0.5"
+  },
+  "optionalDependencies": {
+    "sharp": "^0.33.5"
+  }
+}

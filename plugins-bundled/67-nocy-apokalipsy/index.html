@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="pl"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>67 nocy apokalipsy</title>
+<style>
+:root{--bg:#10131a;--panel:#1b202b;--line:#2c3444;--txt:#e8ebf1;--mut:#8f9aae;--acc:#e0623a;--good:#5fbf7a;--bad:#e5484d}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;height:100%;background:var(--bg);color:var(--txt);font-family:system-ui,sans-serif;overflow:hidden;touch-action:none;user-select:none}
+#app{display:flex;flex-direction:column;height:100%}
+#hud{display:flex;flex-wrap:wrap;gap:6px 14px;align-items:center;padding:8px 10px;background:var(--panel);border-bottom:1px solid var(--line);font-size:14px}
+#hud b{font-variant-numeric:tabular-nums}
+.bar{flex:1 1 90px;min-width:90px;height:10px;background:#0c0f14;border-radius:6px;overflow:hidden;border:1px solid var(--line)}
+.bar i{display:block;height:100%;width:100%;background:var(--good);transition:width .15s}
+#phase{padding:2px 8px;border-radius:10px;font-weight:700;font-size:12px;background:#c99a2e;color:#1a1300}
+#phase.night{background:#3b4a8c;color:#fff}
+#stage{position:relative;flex:1;min-height:0}
+canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+#hint{position:absolute;left:0;right:0;bottom:8px;text-align:center;font-size:13px;color:var(--mut);pointer-events:none;padding:0 8px}
+#controls{display:flex;gap:8px;padding:8px;background:var(--panel);border-top:1px solid var(--line)}
+#controls button{flex:1;min-height:48px;border:1px solid var(--line);border-radius:12px;background:#252c3a;color:var(--txt);font-size:14px;font-weight:600;padding:4px}
+#controls button small{display:block;font-weight:400;color:var(--mut);font-size:11px}
+#controls button:disabled{opacity:.4}
+#controls button.atk{background:var(--acc);border-color:var(--acc);color:#fff}
+#controls button:active:not(:disabled){filter:brightness(1.25)}
+.ov{position:absolute;inset:0;display:none;align-items:center;justify-content:center;background:rgba(8,10,14,.86);padding:12px;overflow:auto;z-index:5}
+.ov.show{display:flex}
+.card{max-width:560px;width:100%;text-align:center}
+.card h2{margin:0 0 6px;font-size:22px}
+.card p{margin:6px 0;color:var(--mut);font-size:14px}
+.bases{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}
+.base{border:2px solid var(--line);border-radius:12px;background:var(--panel);color:var(--txt);padding:10px 6px;text-align:center;font-size:13px}
+.base .sw{display:block;height:8px;border-radius:4px;margin-bottom:6px}
+.base b{display:block;font-size:14px;margin-bottom:2px}
+.base span{color:var(--mut);font-size:12px}
+.base:active{border-color:var(--acc)}
+.big{margin-top:14px;padding:12px 22px;border:0;border-radius:12px;background:var(--acc);color:#fff;font-size:16px;font-weight:700}
+</style></head>
+<body><div id="app">
+<div id="hud">
+  <span id="phase">DZIEŃ</span>
+  <span>Noc <b id="hNight">1</b>/<b id="hMax">67</b></span>
+  <span id="hTime">0s</span>
+  <span>🪵 <b id="hWood">0</b></span>
+  <span>⚙️ <b id="hScrap">0</b></span>
+  <span>Baza <b id="hLvl">1</b>/4</span>
+  <span title="Rdzeń">🏠</span><div class="bar"><i id="coreBar"></i></div>
+  <span title="Ty">❤️</span><div class="bar"><i id="hpBar"></i></div>
+</div>
+<div id="stage">
+  <canvas id="cv"></canvas>
+  <div id="hint"></div>
+  <div class="ov" id="ovBase"><div class="card">
+    <h2>Wybierz bazę</h2>
+    <p>Każda baza ma inne koszty ulepszeń rdzenia. Przetrwaj <b id="ovMax">67</b> nocy.</p>
+    <div class="bases" id="baseList"></div>
+  </div></div>
+  <div class="ov" id="ovEnd"><div class="card">
+    <h2 id="endTitle"></h2><p id="endText"></p>
+    <button class="big" id="again">Zagraj ponownie</button>
+  </div></div>
+</div>
+<div id="controls">
+  <button id="bUp" disabled>⬆ Ulepsz <small>przy rdzeniu · E</small></button>
+  <button id="bRep" disabled>🔧 Napraw <small>przy rdzeniu · R</small></button>
+  <button id="bSkip">🌙 Do nocy <small>pomiń dzień · N</small></button>
+  <button id="bAtk" class="atk">⚔ Atak <small>spacja</small></button>
+</div>
+</div>
+<script src="/plugin-sdk.js"></script><script src="game.js"></script>
+</body></html>

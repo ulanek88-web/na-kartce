@@ -1,0 +1,1 @@
+{ "slug": "klikacz", "name": "Klikacz", "icon": "👆", "hue": 280, "version": "1.0.0", "description": "Przykładowy plugin: klikaj ile zdołasz.", "config": { "roundSec": 10 } }

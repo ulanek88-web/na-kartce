@@ -1,0 +1,35 @@
+# Produkcja na jednym serwerze: aplikacja + Caddy (automatyczny, darmowy HTTPS/WSS z Let's Encrypt).
+# Uruchamia to deploy/setup.sh; ręcznie: docker compose -f docker-compose.prod.yml up -d --build
+services:
+  nakartce:
+    build: .
+    restart: unless-stopped
+    init: true
+    stop_grace_period: 15s
+    environment:
+      ADMIN_PASSWORD: ${ADMIN_PASSWORD:?ustaw ADMIN_PASSWORD w pliku .env}
+      ALLOWED_ORIGINS: https://${DOMAIN:?ustaw DOMAIN w pliku .env}
+      TRUST_PROXY: "1"            # dokładnie jedno proxy (Caddy) przed aplikacją
+    volumes:
+      - nakartce-data:/data       # baza, secret.key, kopie zapasowe, wgrane wtyczki
+    read_only: true
+    tmpfs: ["/tmp"]
+    cap_drop: [ALL]
+    security_opt: ["no-new-privileges:true"]
+    mem_limit: 700m               # mieści się także na serwerze z 1 GB RAM
+    pids_limit: 256
+  caddy:
+    image: caddy:2-alpine
+    restart: unless-stopped
+    depends_on: [nakartce]
+    ports: ["80:80", "443:443", "443:443/udp"]
+    environment:
+      DOMAIN: ${DOMAIN:?ustaw DOMAIN w pliku .env}
+    volumes:
+      - ./deploy/Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy-data:/data          # certyfikaty – nie kasuj, żeby nie wyczerpać limitów Let's Encrypt
+      - caddy-config:/config
+volumes:
+  nakartce-data:
+  caddy-data:
+  caddy-config:
